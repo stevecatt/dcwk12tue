@@ -1,9 +1,14 @@
 import React, {Component} from 'react';
 import './BaseLayout.css';
+import 'bootstrap/dist/css/bootstrap.css';
 // import {BookList} from './BookList'
 // import {AddBook} from './AddBook'
 import {NavLink} from 'react-router-dom'
 import { connect } from 'react-redux'
+import { Fragment } from 'react';
+import {
+  Navbar, NavbarBrand, Nav, NavItem,
+} from 'react-bootstrap';
 // import {DeleteBook} from './DeleteBook'
 // import {UpdateBook} from './UpdateBook'
 // import {BrowserRouter, Switch, Route} from 'react-router-dom'
@@ -13,15 +18,37 @@ import { connect } from 'react-redux'
 
   render() {
     return (
-      <ul className="menu">
-      {!this.props.isAuth ?<li><NavLink to="/" className="link">Home</NavLink></li>:null}
-      {this.props.isAuth?<li><NavLink to="/view-all-books">View All Books</NavLink></li>:null}
-      {this.props.isAuth ?<li><NavLink to="/add-book">Add Book</NavLink></li>:null}
-      {this.props.isAuth ?<li><NavLink to="/delete-book">Delete Book</NavLink></li>:null}
-      {!this.props.isAuth ?<li><NavLink to="/login">login</NavLink></li>:null}
-      {!this.props.isAuth ?<li><NavLink to="/register">Register</NavLink></li>:null}
+     <div>
+      <Fragment>
+      <Navbar color="light" light-expand="md">
       
-      </ul>
+      
+      <NavbarBrand>
+      <NavLink to="/">Home</NavLink>
+      </NavbarBrand>
+
+      <Nav className="ml-auto" navbar>
+      <NavItem className="d-flex align-items-center">
+      {this.props.isAuth?<NavLink className="font-weight-bold" to="/view-all-books">View All Books </NavLink>:null}
+      </NavItem>
+      <NavItem className="d-flex align-items-center">
+      {this.props.isAuth ?<NavLink className="font-weight-bold" to="/add-book"> Add Book </NavLink>:null}
+      </NavItem>
+      <NavItem className="d-flex align-items-center">
+      {this.props.isAuth ?<NavLink className="font-weight-bold" to="/delete-book"> Delete Book</NavLink>:null}
+      </NavItem>
+      <NavItem className="d-flex align-items-center">
+      {!this.props.isAuth ?<NavLink className="font-weight-bold" to="/login"> login </NavLink>:null}
+      </NavItem>
+      <NavItem className="d-flex align-items-center">
+      {!this.props.isAuth ?<NavLink className="font-weight-bold" to="/register"> Register</NavLink>:null}
+      </NavItem>
+      </Nav>
+      
+     
+      </Navbar>
+     </Fragment>
+     </div>
     )
   }
 }

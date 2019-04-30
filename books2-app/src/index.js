@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import 'bootstrap/dist/css/bootstrap.css';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux'
 import {BrowserRouter, Switch, Route} from 'react-router-dom'
@@ -12,9 +13,16 @@ import {DeleteBook} from './components/DeleteBook'
 import {UpdateBook} from './components/UpdateBook'
 import Login from './components/Login'
 import Register from './components/Register'
-import {NavLink} from 'react-router-dom'
+//import {NavLink} from 'react-router-dom'
 import {createStore} from 'redux'
 import reducer from './store/reducer'
+import { Fragment } from 'react';
+import {
+  Navbar, NavbarBrand, Nav, NavItem,
+} from 'reactstrap';
+import {
+    Container, Row, Col,Card, CardBody, CardTitle, CardSubtitle, CardText, Button
+  } from 'reactstrap';
 
 const store = createStore(reducer,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
