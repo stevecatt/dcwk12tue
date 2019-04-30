@@ -1,0 +1,20 @@
+
+.menu {
+  background-color: yellow;
+  color: white;
+  list-style: none;
+  display: flex;
+}
+
+.link {
+  background-color:orange; 
+}
+
+.menu li {
+  margin: 10px;
+}
+
+.footer {
+  background-color: blue;
+  color: white;
+}
