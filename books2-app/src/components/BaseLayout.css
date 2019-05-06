@@ -17,4 +17,13 @@
 .footer {
   background-color: blue;
   color: white;
+  
+  
+}
+.topbar {
+  padding: 10px
+}
+
+li {
+  list-style:none;
 }

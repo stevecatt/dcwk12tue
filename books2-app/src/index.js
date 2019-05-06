@@ -11,20 +11,26 @@ import {AddBook} from './components/AddBook'
 import {BookList} from './components/BookList'
 import {DeleteBook} from './components/DeleteBook'
 import {UpdateBook} from './components/UpdateBook'
+import {Golf} from './components/Golf'
 import Login from './components/Login'
 import Register from './components/Register'
 //import {NavLink} from 'react-router-dom'
 import {createStore} from 'redux'
 import reducer from './store/reducer'
+import Photos from './components/Photos'
 import { Fragment } from 'react';
 import {
   Navbar, NavbarBrand, Nav, NavItem,
-} from 'reactstrap';
+} from 'react-bootstrap';
 import {
     Container, Row, Col,Card, CardBody, CardTitle, CardSubtitle, CardText, Button
-  } from 'reactstrap';
+  } from 'react-bootstrap';
+
+import { setAuthenticationHeader } from './utils/authenticate'
 
 const store = createStore(reducer,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+
+setAuthenticationHeader(localStorage.getItem('jwtoken'))
 
 ReactDOM.render(
     <Provider store={store}>
@@ -39,6 +45,8 @@ ReactDOM.render(
             <Route path="/update-book/:id/:name/:genre/:publisher/:year" component={UpdateBook} />
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
+            <Route path="/golf" component={Golf} />
+            <Route path="/photo" component={Photos} />
         </Switch>
         </BaseLayout>
     </BrowserRouter>

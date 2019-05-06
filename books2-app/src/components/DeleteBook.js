@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import axios from 'axios';
 
 
 export class DeleteBook extends Component{
@@ -19,11 +20,10 @@ export class DeleteBook extends Component{
     getAllBooks = ()=>{
         let url = 'http://localhost:8080/api/books'
     
-        fetch(url)
-        .then(response => response.json())
-        .then(json => {
+        axios.get(url)
+        .then(response =>  {
            this.setState({
-            books: json
+            books: response.data
             
           })
           //callback(json)
@@ -40,19 +40,15 @@ export class DeleteBook extends Component{
     removeBook = (book) =>  {
         console.log("sending shit to the server")
         console.log(book)
-        fetch('http://localhost:8080/api/delete-book', {
+        axios.post('http://localhost:8080/api/delete-book', {
         method: 'POST',
-        headers: {
-        'Content-Type': 'application/json'
-             },
-        body: JSON.stringify({
+        
         id: book,
         
     })
-  }).then(response => response.json())
-  .then(result => {
-      if(result.success) {
-        console.log(result)
+  .then(response => {
+      if(response.data.success === true) {
+        console.log(response.data.success)
         // go fetch the books from the server and display it
         this.getAllBooks()
       } else {

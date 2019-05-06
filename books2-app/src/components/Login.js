@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux'
+import axios from 'axios'
+import { setAuthenticationHeader } from '../utils/authenticate'
 
 
 
@@ -27,35 +29,42 @@ class Login extends Component {
       }
 
       handleSaveUserClick = () => {
-      fetch('http://localhost:8080/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-          body: JSON.stringify({
+      axios.post('http://localhost:8080/login', {
+       
+          
            
             userName: this.state.userName,
             password: this.state.password
-          })
+        
         })
         
-        .then(response => response.json())
-        .then(result => {
-            if(result===true) {
+        .then(response => {
+          if (response.data != false){
+          console.log(response)
+          let token = response.data.token
+
+          localStorage.setItem('jwtoken',token)
+          this.props.history.push('/view-all-books')
+          this.props.onTokenRecieved(token)
+          setAuthenticationHeader(token)
+          }else{console.log("you messed up")}
+        })
+        // .then(result => {
+        //     if(result===true) {
             
-              console.log("USER Autherized")
+        //       console.log("USER Autherized")
              
           
-              this.props.history.push('/view-all-books')
-              this.props.onResultTrue()
+        //       this.props.history.push('/view-all-books')
+        //       this.props.onResultTrue()
               
               
-            } else{
-              this.props.history.push('/')
-            }
+        //     } else{
+        //       this.props.history.push('/')
+        //     }
                 
             
-          })
+        //   })
         
         }
   
@@ -73,7 +82,7 @@ class Login extends Component {
 }
 const mapDispatchToProps = (dispatch)=>{
   return {
-    onResultTrue: ()=> dispatch({type:'IS_AUTHENTICATED'})
+    onTokenRecieved: (token)=> dispatch({type:'IS_AUTHENTICATED'})
   }
 }
 

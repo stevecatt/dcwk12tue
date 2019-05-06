@@ -9,6 +9,9 @@ import { Fragment } from 'react';
 import {
   Navbar, NavbarBrand, Nav, NavItem,
 } from 'react-bootstrap';
+import {
+  Container, Row, Col,Card, CardBody, CardTitle, CardSubtitle, CardText, Button
+} from 'react-bootstrap';
 // import {DeleteBook} from './DeleteBook'
 // import {UpdateBook} from './UpdateBook'
 // import {BrowserRouter, Switch, Route} from 'react-router-dom'
@@ -20,28 +23,32 @@ import {
     return (
      <div>
       <Fragment>
-      <Navbar color="light" light-expand="md">
+      <Navbar color="light" light-expand="md" bg='light'>
       
       
       <NavbarBrand>
       <NavLink to="/">Home</NavLink>
+      <NavLink  to="/golf">golf </NavLink>
       </NavbarBrand>
 
       <Nav className="ml-auto" navbar>
       <NavItem className="d-flex align-items-center">
-      {this.props.isAuth?<NavLink className="font-weight-bold" to="/view-all-books">View All Books </NavLink>:null}
+      {this.props.isAuth?<NavLink className="font-weight-bold topbar" to="/view-all-books">View All Books </NavLink>:null}
       </NavItem>
       <NavItem className="d-flex align-items-center">
-      {this.props.isAuth ?<NavLink className="font-weight-bold" to="/add-book"> Add Book </NavLink>:null}
+      {this.props.isAuth ?<NavLink className="font-weight-bold topbar" to="/add-book"> Add Book </NavLink>:null}
       </NavItem>
       <NavItem className="d-flex align-items-center">
-      {this.props.isAuth ?<NavLink className="font-weight-bold" to="/delete-book"> Delete Book</NavLink>:null}
+      {this.props.isAuth ?<NavLink className="font-weight-bold topbar" to="/delete-book"> Delete Book</NavLink>:null}
       </NavItem>
       <NavItem className="d-flex align-items-center">
-      {!this.props.isAuth ?<NavLink className="font-weight-bold" to="/login"> login </NavLink>:null}
+      {!this.props.isAuth ?<NavLink className="font-weight-bold topbar" to="/login"> login </NavLink>:null}
       </NavItem>
       <NavItem className="d-flex align-items-center">
-      {!this.props.isAuth ?<NavLink className="font-weight-bold" to="/register"> Register</NavLink>:null}
+      {this.props.isAuth ?<NavLink className="font-weight-bold topbar" to="/logout"> logout </NavLink>:null}
+      </NavItem>
+      <NavItem className="d-flex align-items-center">
+      {!this.props.isAuth ?<NavLink className="font-weight-bold topbar" to="/register"> Register</NavLink>:null}
       </NavItem>
       </Nav>
       
@@ -70,7 +77,7 @@ class BaseLayout extends Component {
       <div>
         <Menu isAuth = {this.props.isAuth} isReq = {this.props.isReg}/>
           {this.props.children}
-        <Footer />
+        <Footer/>
       </div>
     )
   }

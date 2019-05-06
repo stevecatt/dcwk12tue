@@ -4,7 +4,7 @@ const app = express()
 const cors = require('cors')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
-
+const jwt = require('jsonwebtoken')
 
 const pgp = require('pg-promise')()
 app.use(cors())
@@ -25,10 +25,36 @@ app.use(bodyParser.json())
 db = pgp(connectionString)
 
 
+
+
 let books = [
 {name: 'Book 1'},
 {name: 'Book 2'}
 ]
+
+function authenticate(req,res, next) {
+
+  let headers = req.headers["authorization"]
+  // Bearer token
+  // after the split
+  // [0] Bearer
+  // [1] token
+  let token = headers.split(' ')[1]
+
+  jwt.verify(token,'secret',(err, decoded) => {
+    if(decoded) {
+      if(decoded.id) {
+        next()
+      } else {
+        res.status(401).json({message: 'Token invalid'})
+      }
+    } else {
+      res.status(401).json({message: 'Token invalid'})
+    }
+  })
+
+}
+
 
 app.get('/', (req, res) => {
     res.send('hello')
@@ -63,14 +89,14 @@ app.post('/api/books',(req,res) => {
     
   })
   
-  app.get('/api/books',(req,res) => {
+  app.get('/api/books',authenticate,(req,res) => {
     
     db.any('SELECT * FROM reactbooks ORDER BY id')
     .then((books)=>{res.json(books)})
     
   })
 
-  app.post('/api/delete-book',(req,res) => {
+  app.post('/api/delete-book',authenticate,(req,res) => {
 
     let id = req.body.id
     
@@ -149,13 +175,20 @@ console.log(userName,firstName,lastName,hash)
     //console.log(user.exists)
     if (user.exists){
       //console.log("we got one")
-      db.one('SELECT hash FROM users WHERE user_name=$1', [userName])
+      db.one('SELECT hash,id FROM users WHERE user_name=$1', [userName])
       .then((logger)=>{
         bcrypt.compare(req.body.password, logger.hash, function(err, result){
           if (result){
-            res.json(result)
-            console.log("result coming back")
-            console.log(result)
+            jwt.sign({ id:logger.id}, 'secret', function(err, token) {
+              console.log(token)
+
+              if(token != false)  {
+                res.json({token: token})
+              } else {
+                res.json({message: 'Unable to generate token'})
+              }
+      
+          });
           }else{
             res.json(result)
             console.log("error coming back")

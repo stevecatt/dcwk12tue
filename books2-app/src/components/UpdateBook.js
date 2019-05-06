@@ -36,7 +36,7 @@ export class UpdateBook extends Component {
   
     
   
-    fetch('http://localhost:5000/api/update-book', {
+    fetch('http://localhost:8080/api/update-book', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'

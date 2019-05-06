@@ -1,4 +1,13 @@
 import React, {Component} from 'react';
+import './BaseLayout.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import {
+  Container, Row, Col,Card, CardBody, CardTitle, CardSubtitle, CardText, Button, Table
+} from 'react-bootstrap';
+import axios from 'axios';
+import { setAuthenticationHeader } from '../utils/authenticate';
+
+
 //import {Books} from './Books'
 //import {Link, NavLink} from 'react-router-dom'
 
@@ -25,14 +34,15 @@ export class BookList extends Component {
   getAllBooks = ()=>{
     let url = 'http://localhost:8080/api/books'
 
-    fetch(url)
-    .then(response => response.json())
-    .then(json => {
-       this.setState({
-        books: json
+    axios.get(url)
+    .then(response => {
+      this.setState({
+        books: response.data
+    })
+       
         
-      })
-      //callback(json)
+      
+      
     })
   }
 
@@ -48,16 +58,21 @@ export class BookList extends Component {
         let bookListItems = books.map((book, index)=>{
         
            //make sure the button calls a function {() => this.props.removeTaskCallback(task) if trying to pass something like "task"}
-            return <div key={index}>         
-                             <li>{book.book_name}</li>
-                             <li>{book.book_genre}</li>
-                             <li>{book.book_publisher}</li>
-                             <li>{book.book_year}</li>
-                           
+            return <tbody key={index}>
+                            
+                            <tr>
+                             <td>{book.book_name}</td>
+                             <td>{book.book_genre}</td>
+                             <td>{book.book_publisher}</td>
+                             <td>{book.book_year}</td>
+
+                         
+                             </tr>
                              <button onClick={()=>this.updateBook(book.id,book.book_name,book.book_genre,book.book_publisher,book.book_year)}>Update Book Info</button>
                         
-                           
-                    </div> 
+                          </tbody>
+                    
+                    
         })
         
         return(
@@ -66,7 +81,13 @@ export class BookList extends Component {
             <div>
               <h1>Here Be Books</h1>
              
-             <ul>{bookListItems}</ul>
+             <table>
+               <th>Title</th>
+               <th>Genre</th>
+               <th>Publisher</th>
+               <th>year</th>
+             {bookListItems}
+             </table>
             </div>
         
         )
