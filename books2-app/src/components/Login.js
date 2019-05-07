@@ -49,22 +49,7 @@ class Login extends Component {
           setAuthenticationHeader(token)
           }else{console.log("you messed up")}
         })
-        // .then(result => {
-        //     if(result===true) {
-            
-        //       console.log("USER Autherized")
-             
-          
-        //       this.props.history.push('/view-all-books')
-        //       this.props.onResultTrue()
-              
-              
-        //     } else{
-        //       this.props.history.push('/')
-        //     }
-                
-            
-        //   })
+        
         
         }
   
@@ -82,7 +67,7 @@ class Login extends Component {
 }
 const mapDispatchToProps = (dispatch)=>{
   return {
-    onTokenRecieved: (token)=> dispatch({type:'IS_AUTHENTICATED'})
+    onTokenRecieved: (token)=> dispatch({type:'IS_AUTHENTICATED',token:token})
   }
 }
 

@@ -19,6 +19,22 @@ import {
 
   class Menu extends Component {
 
+    handleLogoutClick = () => {
+
+      console.log(this.props.isAuth)
+  
+      // remove jsonwebtoken from local storage
+      localStorage.removeItem('jwtoken')
+  
+      // update global state isAuthenticated = false
+      this.props.logout()
+  
+      // redirect the user to login screen
+      //this.props.history.push('/login')
+  
+      console.log("handleLogoutClick")
+    }
+
   render() {
     return (
      <div>
@@ -50,6 +66,7 @@ import {
       <NavItem className="d-flex align-items-center">
       {!this.props.isAuth ?<NavLink className="font-weight-bold topbar" to="/register"> Register</NavLink>:null}
       </NavItem>
+      {this.props.isAuth ?   <li><a onClick={this.handleLogoutClick} href="#">Logout</a></li> : null }
       </Nav>
       
      
@@ -71,11 +88,17 @@ import {
 }
 
 class BaseLayout extends Component {
+  //checks to see if a token is there and allows access to what we need 
+  
+  componentDidMount(){
+    let token = localStorage.getItem('jwtoken')
+    this.props.onTokenRecieved(token)
+  }
 
   render() {
     return (
       <div>
-        <Menu isAuth = {this.props.isAuth} isReq = {this.props.isReg}/>
+        <Menu isAuth = {this.props.isAuth} logout={this.props.onLogout} history= {this.props.history}/>
           {this.props.children}
         <Footer/>
       </div>
@@ -90,4 +113,11 @@ const mapStateToProps =(state)=>{
     isAuth: state.isAuthenticated
   }
 }
-export default connect(mapStateToProps)(BaseLayout)
+
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    onTokenRecieved: (token)=> dispatch({type:'IS_AUTHENTICATED',token:token}),
+    onLogout: () => dispatch({type: 'LOGOUT'})
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(BaseLayout)

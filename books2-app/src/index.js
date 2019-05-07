@@ -27,6 +27,9 @@ import {
   } from 'react-bootstrap';
 
 import { setAuthenticationHeader } from './utils/authenticate'
+// you can call requireAuth anything
+import requireAuth from './components/requireAuth'
+
 
 const store = createStore(reducer,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
@@ -40,9 +43,9 @@ ReactDOM.render(
   
             <Route path="/" exact component={App} />
             <Route path="/view-all-books" component={BookList} />
-            <Route path="/add-book" component={AddBook} />
-            <Route path="/delete-book" component={DeleteBook} />
-            <Route path="/update-book/:id/:name/:genre/:publisher/:year" component={UpdateBook} />
+            <Route path="/add-book" component={requireAuth(AddBook)} />
+            <Route path="/delete-book" component={requireAuth(DeleteBook)} />
+            <Route path="/update-book/:id/:name/:genre/:publisher/:year" component={requireAuth(UpdateBook)} />
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
             <Route path="/golf" component={Golf} />

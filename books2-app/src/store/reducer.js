@@ -13,12 +13,12 @@ const reducer = (state = initialState,action) => {
     if (action.type == 'IS_AUTHENTICATED') {
         return {
             ...state,
-            isAuthenticated : true
+            isAuthenticated: action.token != null ? true : false
         }
-    }else if (action.type=='IS_REGISTERED'){
+    }else if (action.type=='LOGOUT'){
         return {
             ...state,
-        isRegistered : true
+        isAuthenticated: false
 
         }
     }
